@@ -1,0 +1,77 @@
+
+server.port=8083
+
+# =========================
+# MYSQL DATABASE
+# =========================
+spring.datasource.url=jdbc:mysql://localhost:3306/smartcart_ecommerce
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# =========================
+# JPA / HIBERNATE
+# =========================
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# =========================
+# KAFKA
+# =========================
+spring.kafka.bootstrap-servers=localhost:9092
+
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+
+# =========================
+# TOPICS
+# =========================
+app.kafka.notification-topic=order-notifications
+app.kafka.pickup-topic=order-pickups
+app.kafka.delivery-topic=order-deliveries
+
+# =========================
+# EUREKA CLIENT
+# =========================
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+
+# =========================
+# CONFIG SERVER DISABLED
+# =========================
+spring.cloud.config.enabled=false
+spring.cloud.config.import-check.enabled=false
+
+# =========================
+# LOGGING
+# =========================
+logging.level.org.springframework.kafka=DEBUG
+logging.level.com.kodewala.order=DEBUG
+
+
+
+
+
+# Distributed Tracing
+management.tracing.enabled=true
+management.tracing.sampling.probability=1.0
+
+# Zipkin Configuration
+management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
+
+# Logging Pattern
+logging.pattern.level=%5p [${spring.application.name:},traceId=%X{traceId:-},spanId=%X{spanId:-}]
+
+
+
+# Logging
+logging.level.io.github.resilience4j.circuitbreaker=DEBUG
+
+# Resilience4j Circuit Breaker Configuration
+resilience4j.circuitbreaker.instances.paymentService.sliding-window-size=5
+resilience4j.circuitbreaker.instances.paymentService.minimum-number-of-calls=5
+resilience4j.circuitbreaker.instances.paymentService.failure-rate-threshold=50
+resilience4j.circuitbreaker.instances.paymentService.wait-duration-in-open-state=30s
+resilience4j.circuitbreaker.instances.paymentService.permitted-number-of-calls-in-half-open-state=2
